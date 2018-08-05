@@ -2,6 +2,7 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+from sklearn.linear_model import LinearRegression
 
 
 def main():
@@ -14,7 +15,13 @@ def main():
     X = one_hot_encoder.fit_transform(X).toarray()
 
     y = data.iloc[:, -1].values
+
     X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.8)
+
+    regressor = LinearRegression()
+    regressor.fit(X_train, y_train)
+    
+
 
 
 if __name__ == '__main__':
