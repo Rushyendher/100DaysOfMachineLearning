@@ -8,7 +8,20 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.linear_model import LinearRegression
 
 
+def backward_elimination(X, y, p_value):
+    foo = len(X[0])
+    for index in range(foo):
+        regressor_OLS = sm.OLS(endog=y, exog=X).fit()
+        p_values = regressor_OLS.pvalues.astype(float)
+        max_value_index = np.argmax(p_values)
+
+        if p_values[max_value_index] > p_value:
+            X = np.delete(X, max_value_index, 1)
+        print(regressor_OLS.summary())
+
+
 def main():
+
     data = pd.read_csv('50_Startups.csv')
     X = data.iloc[:, :-1].values
 
@@ -33,26 +46,10 @@ def main():
     # Optimizing using Backward elimination
     X = np.append(np.ones((50, 1), dtype=int), X, 1)
 
-    # X_opt = X[:, [0, 1, 2, 3, 4, 5]]
-    # regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-    # print(regressor_OLS.summary())
-
-    # X_opt = X[:, [0, 1, 3, 4, 5]]
-    # regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-    # print(regressor_OLS.summary())
-
-    # X_opt = X[:, [0, 3, 4, 5]]
-    # regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-    # print(regressor_OLS.summary())
-
-    # X_opt = X[:, [0, 3, 4, 5]]
-    # regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-    # print(regressor_OLS.summary())
-
-    X_opt = X[:, [0, 3, 5]]
-    regressor_OLS = sm.OLS(endog=y, exog=X_opt).fit()
-    print(regressor_OLS.summary())
+    X_opt = X[:, [0, 1, 2, 3, 4, 5]]
+    backward_elimination(X_opt, y, 0.05)
 
 
 if __name__ == '__main__':
+    np.set_printoptions(suppress=True)
     main()
