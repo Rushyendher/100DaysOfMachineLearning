@@ -18,6 +18,12 @@ def main():
     linear_regressor_poly = LinearRegression()
     linear_regressor_poly.fit(X_poly, y)
 
+    # Linear Predictions for a job level of 7.5
+    linear_regressor.predict(7.5)
+
+    # Polynomial predictions for a job level of 7.5
+    linear_regressor_poly.predict(poly.fit_transform(7.5))
+
 
 if __name__ == '__main__':
     main()
